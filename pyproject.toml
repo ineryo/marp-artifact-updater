@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "marp-artifact-updater"
 version = "0.0.0.dev0"
-description = "A future deterministic updater for explicit generated regions in Marp Markdown."
+description = "A deterministic, explicit-region materializer for artifacts in Marp Markdown."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }

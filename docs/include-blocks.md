@@ -62,9 +62,7 @@ sources use `<!-- quote:start NAME -->` / corresponding end markers, and
 equivalent `equation` markers. Saved `.ipynb` snippets read only stored
 code-cell text; notebooks are never run.
 
-CSV tables require no optional dependency. Other table formats fail with an
-explicit message explaining that pandas and the corresponding reader engine are
-required; this package intentionally does not install them implicitly.
+CSV tables require no optional dependency. Other table formats are deliberately unsupported and fail with an explicit message; this package does not install or invoke optional dataframe readers.
 
 Figures accept PNG, JPEG, GIF, SVG, WebP, AVIF, HTML, and HTM. HTML defaults to
 an iframe and supports `mode=link`.

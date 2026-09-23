@@ -1,15 +1,13 @@
 # Examples
 
-`snippet-demo/` is the complete five-slide executable presentation example.
-`basic/` is a minimal Marp deck with an explicit generated snippet region. Run
-from the repository root:
+- [`quickstart/`](quickstart/) is the clean, smallest onboarding path. It begins current, then lets you make and apply one bounded source change.
+- [`snippet-demo/`](snippet-demo/) is a complete five-slide executable Marp presentation example.
+- [`basic/`](basic/) is an intentionally stale minimal fixture used to demonstrate and test an update. It is not the primary newcomer path.
+
+All commands are run from the repository root. For the primary quick start:
 
 ```console
-uv run marp-artifact-updater check deck.md --repo-root examples/basic
-uv run marp-artifact-updater update deck.md --repo-root examples/basic --apply
-uv run marp-artifact-updater check deck.md --repo-root examples/basic
+uv run marp-artifact-updater check deck.md --repo-root examples/quickstart
 ```
 
-The first command reports a pending update with exit status 1. The second
-updates only the delimited region. The final check returns 0, demonstrating
-idempotence.
+See [`quickstart/README.md`](quickstart/README.md) for the complete check → explicit apply → verification flow.

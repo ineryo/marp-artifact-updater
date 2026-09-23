@@ -1,19 +1,28 @@
 # Architecture
 
-## Bootstrap architecture
+## Responsibility boundary
 
-The T2 package has one intentionally small command boundary:
+Marp Artifact Updater is the **materialization** step in a presentation workflow:
 
-- `marp_artifact_updater.__version__` is the package version.
-- `marp_artifact_updater.cli.main` owns argument parsing and terminal output.
-- `marp_artifact_updater.__main__` delegates module execution to `cli.main`.
+```text
+artifact generation → explicit-region materialization → Marp rendering
+```
 
-No domain model, parser, filesystem adapter, notebook support, execution
-runtime, renderer, or exporter exists in this milestone.
+It reads already-produced repository artifacts and refreshes only explicit generated regions in a Marp Markdown file. It does not own the upstream analysis/build pipeline and it does not render slides.
 
-## Future layering
+## Runtime layers
 
-A later, separately authorized implementation is intended to keep command
-parsing, deterministic planning, generated-region parsing, repository-root
-containment, filesystem mutation, and optional execution controls explicit and
-separate. The detailed source design remains a T3 precondition.
+- `marp_artifact_updater.cli` owns argument parsing, human-readable output, JSON output, and exit status.
+- `parser` recognizes explicit include-region syntax.
+- `snippets` reads named source intervals, including saved notebook code cells without executing them.
+- `paths` confines document and artifact paths to the declared repository root.
+- `updater` resolves regions, reports staleness, and performs an atomic replacement only when `update --apply` is explicit.
+- `handlers` render the bounded supported artifact kinds.
+
+The default execution boundary is intentionally small: no shell is invoked and notebooks are parsed, not run. `python-call` is a separately explicit path that requires an exact command-line module allowlist.
+
+## Ownership model
+
+Human-authored slide prose, structure, and all text outside recognized regions remain outside the updater's authority. A generated region is a projection of its declared artifact source; a `check` can report it stale without taking authority to regenerate that artifact.
+
+See [the safety model](safety.md) for the enforced write, path, and execution controls, and [include blocks](include-blocks.md) for the public region grammar.
