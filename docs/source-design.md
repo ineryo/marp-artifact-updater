@@ -1,18 +1,19 @@
-# Source design and migration boundary
+# Source design and implementation boundary
 
-## Intended future behavior
+## Implemented behavior
 
-The future updater is intended to reconcile explicit generated regions in Marp
-Markdown. Its accepted design includes snippets, tables, figures, quotes,
-equations, provenance, and optional Python calls. It will require a check or
-dry-run phase before apply, no notebook execution, repository-root containment,
-deterministic output, atomic writes, and Python calls disabled by default.
+The updater reconciles explicit generated regions in Marp Markdown from already-produced artifacts. Its supported vocabulary includes snippets, tables/dataframes, figures, quotations, equations, provenance, and opt-in Python calls.
 
-## T3 precondition
+The public contract keeps generation, materialization, and rendering separate:
 
-The detailed prior README/appendix implementation has not been imported into
-this repository. Importing and reconciling that prior README/appendix design is
-a T3 precondition. T2 neither copies nor implements its code or behavior.
+```text
+artifact generation → Marp Artifact Updater → Marp rendering
+```
 
-Any later implementation must reconcile the imported source material with this
-repository's independently reviewed governance and public-readiness boundary.
+`check` and dry-run `update` are read-only; `update --apply` is explicit. The implementation preserves text outside recognized regions, confines paths under `--repo-root`, writes atomically, parses saved notebook content without running it, invokes no shell, and requires an exact allowlist for Python-call modules.
+
+## Deliberate limits
+
+This project is not a general template engine, notebook runner, shell task runner, research pipeline, or slide renderer. Staleness warnings can identify a declared dependency relationship without authorizing the updater to regenerate an artifact.
+
+Future changes must preserve this auditable boundary unless a separately authorized product decision changes it.
