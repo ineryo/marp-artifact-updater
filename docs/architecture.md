@@ -19,7 +19,7 @@ It reads already-produced repository artifacts and refreshes only explicit gener
 - `updater` resolves regions, reports staleness, and performs an atomic replacement only when `update --apply` is explicit.
 - `handlers` render the bounded supported artifact kinds.
 
-The default execution boundary is intentionally small: no shell is invoked and notebooks are parsed, not run. `python-call` is a separately explicit path that requires an exact command-line module allowlist.
+The normal execution boundary is intentionally small: the updater directly invokes no shell and notebooks are parsed, not run. `python-call` is a separately explicit path that requires an exact command-line module allowlist; the allowlisted module remains responsible for its own behavior.
 
 ## Ownership model
 

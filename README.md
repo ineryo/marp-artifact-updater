@@ -16,11 +16,11 @@ analysis, notebook, benchmark, or source code
                 Marp CLI / renderer
 ```
 
-It does **not** run the research pipeline or render slides. It refreshes only the regions you explicitly delegate to it.
+The normal materialization path does **not** run the research pipeline or render slides. It refreshes only the regions you explicitly delegate to it. The separate, opt-in `python-call` capability executes a reviewed allowlisted Python module, whose behavior is outside that normal boundary.
 
 ## First success: a bounded Marp update
 
-The clean [`examples/quickstart/`](examples/quickstart/) deck is ready to check. From a repository checkout:
+The clean [`examples/quickstart/`](examples/quickstart/) deck is ready to check. It has no `python-call` region, so this normal no-exec check is read-only. From a repository checkout:
 
 ```console
 uv sync --group dev
@@ -44,7 +44,7 @@ Use this tool when a deck should show results that already exist elsewhere in th
 The updater has deliberately limited authority over the deck:
 
 - only recognized, explicit generated regions are owned by the updater;
-- `check` is always read-only, and `update` needs `--apply` to write;
+- `check` is read-only for Markdown target writes, and `update` needs `--apply` to write; an opt-in `python-call` executes its allowlisted module while planning, including during `check`;
 - text outside owned regions is byte-preserved, including existing CRLF line endings;
 - input and artifact paths stay under an explicit `--repo-root`; parent traversal and escaped symlinks are refused;
 - the normal materialization path invokes no shell and never executes notebooks;
