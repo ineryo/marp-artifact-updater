@@ -10,7 +10,7 @@ The public contract keeps generation, materialization, and rendering separate:
 artifact generation → Marp Artifact Updater → Marp rendering
 ```
 
-`check` and dry-run `update` are read-only; `update --apply` is explicit. The implementation preserves text outside recognized regions, confines paths under `--repo-root`, writes atomically, parses saved notebook content without running it, invokes no shell, and requires an exact allowlist for Python-call modules.
+`check` and dry-run `update` are read-only; `update --apply` is explicit. The normal materialization path preserves text outside recognized regions, confines paths under `--repo-root`, writes atomically, parses saved notebook content without running it, and directly invokes no shell. `python-call` is a separate explicit capability requiring an exact module allowlist; the allowlisted module remains responsible for its own behavior.
 
 ## Deliberate limits
 
